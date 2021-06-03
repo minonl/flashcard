@@ -1,0 +1,99 @@
+{
+  "version": 2,
+  "cli": {
+    "defaultCollection": "@nrwl/next"
+  },
+  "defaultProject": "flashcard",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "styled-jsx",
+        "linter": "eslint"
+      }
+    }
+  },
+  "projects": {
+    "flashcard": {
+      "root": "apps/flashcard",
+      "sourceRoot": "apps/flashcard",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "root": "apps/flashcard",
+            "outputPath": "dist/apps/flashcard"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "flashcard:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "flashcard:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "flashcard:build:production"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/flashcard"],
+          "options": {
+            "jestConfig": "apps/flashcard/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/flashcard/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      }
+    },
+    "flashcard-e2e": {
+      "root": "apps/flashcard-e2e",
+      "sourceRoot": "apps/flashcard-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/flashcard-e2e/cypress.json",
+            "tsConfig": "apps/flashcard-e2e/tsconfig.e2e.json",
+            "devServerTarget": "flashcard:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "flashcard:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/flashcard-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  }
+}
